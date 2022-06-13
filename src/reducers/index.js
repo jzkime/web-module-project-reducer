@@ -1,8 +1,9 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_TOTAL, SET_MEMORY, USE_MEMORY, CLEAR_MEMORY } from './../actions';
+import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_TOTAL, SET_MEMORY, USE_MEMORY, CLEAR_MEMORY, EQUAL, SET_NUMBER } from './../actions';
 
 export const initialState = {
-    total: 0,
-    operation: "*",
+    displayVal: 0,
+    operation: "+",
+    firstNum: 0,
     memory: 0
 }
 
@@ -22,43 +23,57 @@ const reducer = (state, action) => {
         case(ADD_ONE):
             return({
                 ...state,
-                total: state.total + 1
+                displayVal: state.total + 1
             });
+
+        case(SET_NUMBER):
+            return({
+                ...state,
+                displayVal: state.displayVal ? state.displayVal.toString().concat(action.payload) : action.payload
+            })
 
         case(APPLY_NUMBER):
             return ({ 
                 ...state, 
-                total: calculateResult(state.total, action.payload, state.operation)
+                displayVal: calculateResult(state.displayVal, action.payload, state.operation),
             });
         
         case(CHANGE_OPERATION):
             return ({
                 ...state,
-                operation: action.payload
+                operation: action.payload,
+                firstNum: state.displayVal,
+                displayVal: 0
             });
             
         case(CLEAR_TOTAL):
             return({
                 ...state,
-                total: 0
+                displayVal: 0
             });
 
         case(SET_MEMORY):
             return({
                 ...state,
-                memory: state.total
+                memory: state.displayVal
             });
 
         case(USE_MEMORY):
             return({
                 ...state,
-                total: calculateResult(state.total, state.memory, state.operation)
+                displayVal: calculateResult(state.displayVal, state.memory, state.operation)
             })
         
         case(CLEAR_MEMORY):
             return({
                 ...state,
                 memory: 0
+            })
+        
+        case(EQUAL):
+            return({
+                ...state,
+                displayVal: calculateResult(parseInt(state.firstNum), parseInt(state.displayVal), state.operation)
             })
         
         default:

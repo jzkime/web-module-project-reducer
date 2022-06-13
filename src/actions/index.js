@@ -6,6 +6,9 @@ export const CLEAR_TOTAL =  "CLEAR_TOTAL"
 export const SET_MEMORY = "SET_MEMORY"
 export const USE_MEMORY = "USE_MEMORY"
 export const CLEAR_MEMORY = "CLEAR_MEMORY"
+export const EQUAL = "EQUAL"
+
+export const SET_NUMBER = "SET_NUMBER"
 
 export const addOne = () => {
     return({type:ADD_ONE});
@@ -33,4 +36,12 @@ export const useMemory = () => {
 
 export const clearMemory = () => {
     return({type:CLEAR_MEMORY})
+}
+
+export const equal = () => {
+    return({type: EQUAL})
+}
+
+export const setNumber = (num) => {
+    return({type:SET_NUMBER, payload: num})
 }

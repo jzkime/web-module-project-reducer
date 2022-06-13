@@ -6,7 +6,7 @@ import TotalDisplay from './TotalDisplay';
 import CalcButton from './CalcButton';
 
 import { useReducer } from 'react'
-import {addOne, applyNumber, changeOperation, clearAction, setMemory, useMemory, clearMemory} from '../actions'
+import {addOne, applyNumber, changeOperation, clearAction, setMemory, useMemory, clearMemory, equal, setNumber} from '../actions'
 import reducer from '../reducers'
 import { initialState } from '../reducers';
 
@@ -14,7 +14,7 @@ function App() {
   const [ state, dispatch ] = useReducer(reducer, initialState)
 
   const handleNum = (e) => {
-    dispatch(applyNumber(parseInt(e.target.value)))
+    dispatch(setNumber(e.target.value))
   }
 
   const handleOperation = (e) => {
@@ -37,6 +37,11 @@ function App() {
     dispatch(clearMemory())
   }
 
+  const handleEqual = () => {
+    dispatch(equal())
+  }
+
+
   return (
     <div className="App">
       <nav className="navbar navbar-dark bg-dark">
@@ -47,7 +52,7 @@ function App() {
         <div className="col-md-12 d-flex justify-content-center">
           <form name="Cal">
             
-            <TotalDisplay value={state.total}/>
+            <TotalDisplay value={state.displayVal}/>
             <div className="row details">
               <span id="operation"><b>Operation:</b> {state.operation}</span>
               <span id="memory"><b>Memory:</b> {state.memory}</span>
@@ -85,6 +90,7 @@ function App() {
 
             <div className="row ce_button">
               <CalcButton value={"CE"} onClick={handleClear}/>
+              <CalcButton value={"="} onClick={handleEqual}/>
             </div>
 
           </form>
